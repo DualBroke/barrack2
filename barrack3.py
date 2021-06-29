@@ -76,7 +76,7 @@ while True:
             if start_time < now < end_time - datetime.timedelta(seconds=10):
                 target_price = get_target_price("KRW-TFUEL", 0.4)
                 current_price = get_current_price("KRW-TFUEL")
-                if target_price < current_price:
+                if target_price < current_price < target_price * 1.001:
                     krw = get_balance("KRW")
                     if krw > 5000:
                             if n > n2:
