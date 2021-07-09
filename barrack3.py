@@ -77,10 +77,9 @@ while True:
                 krw = get_balance("KRW")
                 if krw > 5000:
                     upbit.buy_market_order("KRW-TFUEL", krw*0.9995)
-                    at_that_time = get_current_price("KRW-TFUEL")
                     btc = get_balance("TFUEL")
                     if btc > 5000 / get_current_price("KRW-TFUEL"):
-                        if get_current_price("KRW-TFUEL") > at_that_time * 1.05:
+                        if get_current_price("KRW-TFUEL") > target_price * 1.05:
                             upbit.sell_market_order(
                                 "KRW-TFUEL", btc)
 
