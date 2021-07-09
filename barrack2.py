@@ -71,26 +71,22 @@ while True:
         start_time = get_start_time("KRW-BTC")
         end_time = start_time + datetime.timedelta(days=1)
         if start_time < now < end_time - datetime.timedelta(seconds=10):
-            n = 1
-            n2 = 0
-            if start_time < now < end_time - datetime.timedelta(seconds=10):
-                target_price = get_target_price("KRW-BTC", 0.1)
-                current_price = get_current_price("KRW-BTC")
-                if target_price < current_price < target_price * 1.001:
-                    krw = get_balance("KRW")
-                    if krw > 5000:
-                            if n > n2:
-                                upbit.buy_market_order("KRW-BTC", krw*0.9995)
-                                n2 = n2 + 1
-                                at_that_time = get_current_price("KRW-BTC")
-                                btc = get_balance("BTC")
-                            if btc > 5000 / get_current_price("KRW-BTC"):
-                                if get_current_price("KRW-BTC") > at_that_time * 1.1:
-                                    upbit.sell_market_order("KRW-BTC", btc*0.9995)
-                                        
+            target_price = get_target_price("KRW-BTC", 0.9)
+            current_price = get_current_price("KRW-BTC")
+            if target_price < current_price < (target_price * 1.001):
+                krw = get_balance("KRW")
+                if krw > 5000:
+                    upbit.buy_market_order("KRW-BTC", krw*0.9995)
+                    at_that_time = get_current_price("KRW-BTC")
+                    btc = get_balance("BTC")
+                    if btc > 5000 / get_current_price("KRW-BTC"):
+                        if get_current_price("KRW-BTC") > target_price * 1.05:
+                            upbit.sell_market_order(
+                                "KRW-BTC", btc)
+
         else:
             if btc > 5000 / get_current_price("KRW-BTC"):
-                 upbit.sell_market_order("KRW-BTC", btc*0.9995)
+                upbit.sell_market_order("KRW-BTC", btc)
         time.sleep(1)
     except Exception as e:
         print(e)
