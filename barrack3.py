@@ -71,27 +71,22 @@ while True:
         start_time = get_start_time("KRW-TFUEL")
         end_time = start_time + datetime.timedelta(days=1)
         if start_time < now < end_time - datetime.timedelta(seconds=10):
-            n = 1
-            n2 = 0
-            if start_time < now < end_time - datetime.timedelta(seconds=10):
-                target_price = get_target_price("KRW-TFUEL", 0.4)
-                current_price = get_current_price("KRW-TFUEL")
-                if target_price < current_price < target_price * 1.001:
-                    krw = get_balance("KRW")
-                    if krw > 5000:
-                            if n > n2:
-                                upbit.buy_market_order("KRW-TFUEL", krw*0.9995)
-                                n2 = n2 + 1
-                                at_that_time = get_current_price("KRW-TFUEL")
-                                btc = get_balance("TFUEL")
-                            if btc > 5000 / get_current_price("KRW-TFUEL"):
-                                if get_current_price("KRW-TFUEL") > at_that_time * 1.1:
-                                    upbit.sell_market_order("KRW-TFUEL", btc*0.9995)
-                                        
+            target_price = get_target_price("KRW-TFUEL", 0.8)
+            current_price = get_current_price("KRW-TFUEL")
+            if target_price < current_price < (target_price + 2):
+                krw = get_balance("KRW")
+                if krw > 5000:
+                    upbit.buy_market_order("KRW-TFUEL", krw*0.9995)
+                    at_that_time = get_current_price("KRW-TFUEL")
+                    btc = get_balance("TFUEL")
+                    if btc > 5000 / get_current_price("KRW-TFUEL"):
+                        if get_current_price("KRW-TFUEL") > at_that_time * 1.05:
+                            upbit.sell_market_order(
+                                "KRW-TFUEL", btc)
+
         else:
             if btc > 5000 / get_current_price("KRW-TFUEL"):
-                upbit.sell_market_order("KRW-TFUEL", btc*0.9995)
-
+                upbit.sell_market_order("KRW-TFUEL", btc)
         time.sleep(1)
     except Exception as e:
         print(e)
