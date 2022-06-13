@@ -71,7 +71,7 @@ while True:
             print(now)
             start_time = get_start_time(cl)
             end_time = start_time + datetime.timedelta(days=1)
-            if start_time < now < end_time - datetime.timedelta(minutes=5): #9시 ~ 8시 59분이면 True
+            if start_time < now < end_time - datetime.timedelta(minutes=60): #9시 ~ 8시 59분이면 True
                 target_price = get_target_price(cl, ror_max)    
                 current_price = get_current_price(cl)
                 if target_price < current_price:
@@ -83,10 +83,10 @@ while True:
                     btc = get_balance(coin_list_str)
                     upbit.sell_market_order(ticker = cl, volume = btc*0.9995)
 
-            elif end_time - datetime.timedelta(seconds=60) < now < end_time : # 8시 59분 ~ 8시 59분 59초면 작동
+            else: # 8시 59분 ~ 8시 59분 59초면 작동
                 btc = get_balance(coin_list_str)
                 if btc > 5000 / get_current_price(cl):
-                    upbit.sell_market_order(ticker = cl, volume = btc*0.9995) #pm2 monit
+                    upbit.sell_market_order(ticker = cl, volume = btc*0.9995)
             time.sleep(0.1)
             i += 1
     except Exception as e:
